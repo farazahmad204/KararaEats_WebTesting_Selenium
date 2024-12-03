@@ -1,2 +1,2 @@
 # KararaEats_WebTesting
- all testing will done in this workspace
+ all KararaEats web testing will be done in this workspace
