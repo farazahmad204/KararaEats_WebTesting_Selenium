@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="12" time="452.205" timestamp="2024-12-04T16:47:07.981141+05:00" hostname="faraz"><testcase classname="Testcase" name="test_LoginWithValidAdminUser[chrome]" time="52.120" /><testcase classname="Testcase" name="test_LoginWithValidAdminUser[firefox]" time="48.312" /><testcase classname="Testcase" name="test_SignUpWithNewUser[chrome]" time="19.288"><failure message="AssertionError: Assertion failed: Registration Form is not matched to Weekly Menu&#10;assert 'Registration Form' == 'Weekly Menu'&#10;  &#10;  - Weekly Menu&#10;  + Registration Form">driver = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session="c76dcd1eca463d460a24d01fc9309f5c")&gt;, logger = &lt;RootLogger root (INFO)&gt;
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="18" time="607.298" timestamp="2024-12-04T19:42:39.814275+05:00" hostname="faraz"><testcase classname="Testcase" name="test_LoginWithValidAdminUser[chrome]" time="33.777" /><testcase classname="Testcase" name="test_LoginWithValidAdminUser[firefox]" time="39.041" /><testcase classname="Testcase" name="test_LoginWithValidAdminUser[edge]" time="31.797" /><testcase classname="Testcase" name="test_SignUpWithNewUser[chrome]" time="18.449"><failure message="AssertionError: Assertion failed: Registration Form is not matched to Weekly Menu&#10;assert 'Registration Form' == 'Weekly Menu'&#10;  &#10;  - Weekly Menu&#10;  + Registration Form">driver = &lt;selenium.webdriver.chrome.webdriver.WebDriver (session="65f9e983c0dfd627540cdbb8cc016422")&gt;, logger = &lt;RootLogger root (INFO)&gt;
 
     def test_SignUpWithNewUser(driver,logger):
     
@@ -54,7 +54,7 @@ E
 E             - Weekly Menu
 E             + Registration Form
 
-Testcase.py:180: AssertionError</failure></testcase><testcase classname="Testcase" name="test_SignUpWithNewUser[firefox]" time="24.852"><failure message="AssertionError: Assertion failed: Registration Form is not matched to Weekly Menu&#10;assert 'Registration Form' == 'Weekly Menu'&#10;  &#10;  - Weekly Menu&#10;  + Registration Form">driver = &lt;selenium.webdriver.firefox.webdriver.WebDriver (session="937ba0b5-aff1-4891-801b-15d895e76bf0")&gt;, logger = &lt;RootLogger root (INFO)&gt;
+Testcase.py:185: AssertionError</failure></testcase><testcase classname="Testcase" name="test_SignUpWithNewUser[firefox]" time="23.915"><failure message="AssertionError: Assertion failed: Registration Form is not matched to Weekly Menu&#10;assert 'Registration Form' == 'Weekly Menu'&#10;  &#10;  - Weekly Menu&#10;  + Registration Form">driver = &lt;selenium.webdriver.firefox.webdriver.WebDriver (session="f4c9c09a-67c7-46c6-a514-2064162d86a8")&gt;, logger = &lt;RootLogger root (INFO)&gt;
 
     def test_SignUpWithNewUser(driver,logger):
     
@@ -110,4 +110,60 @@ E
 E             - Weekly Menu
 E             + Registration Form
 
-Testcase.py:180: AssertionError</failure></testcase><testcase classname="Testcase" name="test_LoginWithValidUser[chrome]" time="21.567" /><testcase classname="Testcase" name="test_LoginWithValidUser[firefox]" time="24.678" /><testcase classname="Testcase" name="test_placed_Order_with_single_item[chrome]" time="30.667" /><testcase classname="Testcase" name="test_placed_Order_with_single_item[firefox]" time="35.424" /><testcase classname="Testcase" name="test_placed_Order_with_multiple_item[chrome]" time="39.781" /><testcase classname="Testcase" name="test_placed_Order_with_multiple_item[firefox]" time="45.484" /><testcase classname="Testcase" name="test_placed_Order_multiple_days_with_multiple_items[chrome]" time="63.822" /><testcase classname="Testcase" name="test_placed_Order_multiple_days_with_multiple_items[firefox]" time="43.744" /></testsuite></testsuites>
+Testcase.py:185: AssertionError</failure></testcase><testcase classname="Testcase" name="test_SignUpWithNewUser[edge]" time="19.595"><failure message="AssertionError: Assertion failed: Registration Form is not matched to Weekly Menu&#10;assert 'Registration Form' == 'Weekly Menu'&#10;  &#10;  - Weekly Menu&#10;  + Registration Form">driver = &lt;selenium.webdriver.edge.webdriver.WebDriver (session="3aa064985ea67d71501b9b7330b82250")&gt;, logger = &lt;RootLogger root (INFO)&gt;
+
+    def test_SignUpWithNewUser(driver,logger):
+    
+            print("Test Case SignUpWithNewUser started")
+            logger.info("Test Case SignUpWithNewUser started")
+    
+            driver.get(web_url)
+            driver.maximize_window()
+            driver.implicitly_wait(15)  # Wait for 2 seconds
+    
+            signUp_element=WebDriverWait(driver, 10).until(
+                            EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'Sign Up')]"))
+                           )
+            signUp_element.click()
+    
+            current_title =driver.title
+            print(f"Current Page Title: {current_title}")
+            expected_title="Registration Form"
+            assert current_title == expected_title, f"Assertion failed: {current_title} is not matched to {expected_title}"
+    
+            username=driver.find_element(By.ID,"id_username")
+            username.send_keys("faraz")
+            whatsapp_num=driver.find_element(By.ID,"id_whatsapp_num")
+            whatsapp_num.send_keys("+61468452067")
+    
+            email=driver.find_element(By.ID,"id_email")
+            email.send_keys("farazahmed204@gmail.com")
+    
+            address=driver.find_element(By.ID,"id_address")
+            address.send_keys("237 R1 Johar Town Lahore")
+    
+            password1=driver.find_element(By.ID,"id_password1")
+            password1.send_keys("faraz03428601213")
+            password2=driver.find_element(By.ID,"id_password2")
+            password2.send_keys("faraz03428601213")
+    
+    
+    
+            create_account_btn=WebDriverWait(driver, 10).until(
+                            EC.element_to_be_clickable((By.XPATH, "//*[contains(@class, 'btn') and contains(@class, 'fancy-btn')]"))
+                           )
+    
+            create_account_btn.click()
+    
+            time.sleep(10)
+            current_title =driver.title
+            print(f"Current Page Title: {current_title}")
+            expected_title="Weekly Menu"
+&gt;           assert current_title == expected_title, f"Assertion failed: {current_title} is not matched to {expected_title}"
+E           AssertionError: Assertion failed: Registration Form is not matched to Weekly Menu
+E           assert 'Registration Form' == 'Weekly Menu'
+E             
+E             - Weekly Menu
+E             + Registration Form
+
+Testcase.py:185: AssertionError</failure></testcase><testcase classname="Testcase" name="test_LoginWithValidUser[chrome]" time="23.735" /><testcase classname="Testcase" name="test_LoginWithValidUser[firefox]" time="27.098" /><testcase classname="Testcase" name="test_LoginWithValidUser[edge]" time="23.381" /><testcase classname="Testcase" name="test_placed_Order_with_single_item[chrome]" time="33.225" /><testcase classname="Testcase" name="test_placed_Order_with_single_item[firefox]" time="36.093" /><testcase classname="Testcase" name="test_placed_Order_with_single_item[edge]" time="37.061" /><testcase classname="Testcase" name="test_placed_Order_with_multiple_item[chrome]" time="34.781" /><testcase classname="Testcase" name="test_placed_Order_with_multiple_item[firefox]" time="65.030" /><testcase classname="Testcase" name="test_placed_Order_with_multiple_item[edge]" time="31.806" /><testcase classname="Testcase" name="test_placed_Order_multiple_days_with_multiple_items[chrome]" time="35.957" /><testcase classname="Testcase" name="test_placed_Order_multiple_days_with_multiple_items[firefox]" time="38.953" /><testcase classname="Testcase" name="test_placed_Order_multiple_days_with_multiple_items[edge]" time="36.448" /></testsuite></testsuites>

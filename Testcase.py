@@ -49,7 +49,7 @@ web_url="http://127.0.0.1:8000/menu/Weeklymenu/"
 
 # This fixture will allow us to choose a browser dynamically
 # Define the fixture for setting up and tearing down the browser
-@pytest.fixture(autouse=True, scope="function", params=["chrome", "firefox"])
+@pytest.fixture(autouse=True, scope="function", params=["chrome","firefox", "edge"])  
 def driver(request,logger):
 
     browser = request.param
@@ -62,6 +62,11 @@ def driver(request,logger):
         # Initialize Firefox WebDriver
         service =FirefoxService(executable_path="geckodriver.exe")
         driver=webdriver.Firefox(service=service)
+
+    elif browser == "edge":
+        # Initialize Edge WebDriver
+        service =EdgeService(executable_path="msedgedriver.exe")
+        driver=webdriver.Edge(service=service)
 
     logger = logging.getLogger()
     logger.info("This is an info log")
@@ -303,9 +308,6 @@ def test_placed_Order_with_multiple_item(driver,logger):
       expected_title="Order Confirmation"
       assert current_title == expected_title, f"Assertion failed: {current_title} is not matched to {expected_title}"
 
-
-      time.sleep(10)
-
       LogoutUser(driver,logger)
 
  
@@ -356,14 +358,13 @@ def test_placed_Order_multiple_days_with_multiple_items(driver,logger):
                          )
 
       confirm_btn.click()
+       
+      time.sleep(5)
 
       current_title =driver.title
       print(f"Current Page Title: {current_title}")
       expected_title="Order Confirmation"
       assert current_title == expected_title, f"Assertion failed: {current_title} is not matched to {expected_title}"
-
-
-      time.sleep(10)
 
       LogoutUser(driver,logger)
 
@@ -376,8 +377,6 @@ def LoginWithUser(driver ,logger):
 
     driver.get(web_url)
     driver.maximize_window()
-    driver.implicitly_wait(15)  # Wait for 2 seconds 
-
 
     Login_element=WebDriverWait(driver, 10).until(
                         EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'Login')]"))
