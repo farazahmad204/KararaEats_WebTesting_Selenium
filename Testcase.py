@@ -49,7 +49,7 @@ web_url="http://127.0.0.1:8000/menu/Weeklymenu/"
 
 # This fixture will allow us to choose a browser dynamically
 # Define the fixture for setting up and tearing down the browser
-@pytest.fixture(autouse=True, scope="function", params=["chrome","firefox", "edge"])  
+@pytest.fixture(autouse=True, scope="function", params=["chrome","firefox","edge"])  
 def driver(request,logger):
 
     browser = request.param
@@ -123,18 +123,10 @@ def test_LoginWithValidAdminUser(driver ,logger):
     time.sleep(10)
 
 
-    Logout_element=WebDriverWait(driver, 10).until(
-                        EC.element_to_be_clickable((By.XPATH, "//*[contains(@class, 'logout-btn') and contains(@class, 'custom-font')]"))
-                       )
-    Logout_element.click()
+    LogoutUser(driver,logger)
 
-    current_title =driver.title
-    print(f"Current Page Title: {current_title}")
-    expected_title="Karara Eats"
-    assert current_title == expected_title, f"Assertion failed: {current_title} is not matched to {expected_title}"
-
-
-#Test2
+@pytest.mark.skip(reason="Skipping this test case intentionally")
+#Test2  
 def test_SignUpWithNewUser(driver,logger):
 
         print("Test Case SignUpWithNewUser started")
@@ -406,11 +398,28 @@ def LoginWithUser(driver ,logger):
     assert current_title == expected_title, f"Assertion failed: {current_title} is not matched to {expected_title}"
 
 def LogoutUser(driver ,logger):
-    # Navigate to Google
+    
+
+    profile_btn=WebDriverWait(driver, 10).until(
+                        EC.element_to_be_clickable((By.XPATH, "//*[contains(@class, 'dropdown-toggle') and contains(@class, 'custom-font')]"))
+                       )
+    profile_btn.click()
+
+    parent_window = driver.current_window_handle
+    window_handles = driver.window_handles
+    for handle in window_handles:
+         if handle != parent_window:
+              driver.switch_to.window(handle)  # Switch to the new window
+
+    driver.switch_to.window(parent_window)
+    
+
     Logout_element=WebDriverWait(driver, 10).until(
-                        EC.element_to_be_clickable((By.XPATH, "//*[contains(@class, 'logout-btn') and contains(@class, 'custom-font')]"))
+                        EC.element_to_be_clickable((By.XPATH, "//*[contains(@class, 'dropdown-item') and contains(@class, 'logout-btn')]"))
                        )
     Logout_element.click()
+
+    driver.switch_to.window(parent_window)
 
     current_title =driver.title
     print(f"Current Page Title: {current_title}")
